@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Saket | About Me</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Crimson+Pro:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f131a;
+            --sidebar-bg: #1e2530;
+            --content-bg: #2d364a;
+            --accent-red: #d32f2f;
+            --text-main: #b0b8c4;
+            --border-color: #454e5f;
+            --mono: 'Share Tech Mono', monospace;
+            --serif: 'Crimson Pro', Georgia, serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--serif);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        #header {
+            width: 100%;
+            height: 160px;
+            background-color: var(--accent-red);
+            border-bottom: 4px solid #000;
+            background-image: url('YOUR_BANNER_HERE.png');
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent, transparent 3px,
+                rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px
+            );
+            pointer-events: none;
+        }
+
+        /* ── MOBILE NAV ── */
+        #mobileNav {
+            display: none;
+            background: var(--sidebar-bg);
+            border-bottom: 2px solid #000;
+            padding: 8px 12px;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        #mobileNav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 11px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            padding: 5px 10px;
+        }
+
+        #mobileNav a.active-tab { background: var(--accent-red); color: #fff; border-color: #fff; }
+
+        /* ── LAYOUT ── */
+        #container {
+            display: flex;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            border-left: 2px solid var(--border-color);
+            border-right: 2px solid var(--border-color);
+        }
+
+        /* ── SIDEBAR ── */
+        #leftSidebar {
+            width: 160px;
+            background-color: var(--sidebar-bg);
+            border-right: 2px solid #000;
+            padding: 15px 10px;
+            flex-shrink: 0;
+        }
+
+        #leftSidebar h3 {
+            color: #fff;
+            font-size: 12px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--accent-red);
+            margin-bottom: 10px;
+            padding-bottom: 4px;
+            font-family: var(--mono);
+            letter-spacing: 1px;
+        }
+
+        #leftSidebar ul { list-style: none; }
+
+        #leftSidebar li a {
+            display: block;
+            padding: 8px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 11px;
+            border: 1px solid transparent;
+            margin-bottom: 4px;
+            background: rgba(0,0,0,0.2);
+            text-align: center;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        #leftSidebar li a:hover,
+        #leftSidebar li a.active-tab {
+            background-color: var(--accent-red);
+            color: #fff;
+            border: 1px solid #fff;
+        }
+
+        /* ── MAIN ── */
+        main {
+            background-color: var(--content-bg);
+            flex: 1;
+            padding: 28px 30px;
+            overflow-y: auto;
+            min-width: 0;
+            position: relative;
+        }
+
+        main::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(69,78,95,0.13) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(69,78,95,0.13) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+        }
+
+        /* ── PAGE TITLE ── */
+        .page-title { margin-bottom: 22px; }
+
+        .page-title h1 {
+            font-family: var(--mono);
+            color: #fff;
+            font-size: 17px;
+            letter-spacing: 3px;
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 4px;
+            display: inline-block;
+        }
+
+        .page-title .subtitle {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: #484f5e;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        /* ── GRID ── */
+        .grid {
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 14px;
+            position: relative;
+        }
+
+        /* ── BOX ── */
+        .box {
+            background: rgba(0,0,0,0.28);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s;
+            animation: fadeUp 0.45s ease both;
+        }
+
+        .box:hover { border-color: #606880; }
+
+        /* corner brackets */
+        .box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 14px; height: 14px;
+            border-top: 2px solid var(--accent-red);
+            border-left: 2px solid var(--accent-red);
+        }
+
+        .box::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 14px; height: 14px;
+            border-bottom: 2px solid var(--accent-red);
+            border-right: 2px solid var(--accent-red);
+        }
+
+        .box:nth-child(1) { animation-delay: 0.05s; }
+        .box:nth-child(2) { animation-delay: 0.12s; }
+        .box:nth-child(3) { animation-delay: 0.19s; }
+        .box:nth-child(4) { animation-delay: 0.26s; }
+        .box:nth-child(5) { animation-delay: 0.33s; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .box-label {
+            font-family: var(--mono);
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-red);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .box-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* ── PHOTO COLUMN ── */
+        .box-photo {
+            grid-column: 1;
+            grid-row: 1 / 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .photo-wrap {
+            position: relative;
+            width: 148px;
+        }
+
+        /* film strip holes */
+        .film-strip {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding: 4px 0;
+        }
+
+        .film-strip.left { left: -13px; }
+        .film-strip.right { right: -13px; }
+
+        .film-hole {
+            width: 8px; height: 6px;
+            background: var(--bg-dark);
+            border: 1px solid #333;
+            border-radius: 1px;
+        }
+
+        .photo-wrap img {
+            width: 100%;
+            height: 175px;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(75%) contrast(1.1);
+            border: 2px solid var(--accent-red);
+            transition: filter 0.5s;
+        }
+
+        .photo-wrap:hover img { filter: grayscale(15%) contrast(1.05); }
+
+        /* photo caption */
+        .photo-caption {
+            font-family: var(--mono);
+            font-size: 9px;
+            color: #444;
+            text-align: center;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ID card rows */
+        .id-card { width: 100%; }
+
+        .id-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(69,78,95,0.3);
+            font-size: 12px;
+        }
+
+        .id-row:last-child { border-bottom: none; }
+
+        .id-key {
+            font-family: var(--mono);
+            font-size: 9px;
+            color: var(--accent-red);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .id-val { font-size: 12px; color: #d0d8e4; }
+
+        .cursor {
+            display: inline-block;
+            width: 6px; height: 11px;
+            background: var(--accent-red);
+            vertical-align: middle;
+            margin-left: 2px;
+            animation: cur 1s step-end infinite;
+        }
+
+        @keyframes cur { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        /* ── BIO ── */
+        .box-bio { grid-column: 2; grid-row: 1; }
+
+        .bio-text {
+            font-size: 15.5px;
+            line-height: 1.9;
+            color: #c0c9d5;
+        }
+
+        .bio-text .drop {
+            float: left;
+            font-size: 42px;
+            line-height: 0.78;
+            color: var(--accent-red);
+            font-family: var(--mono);
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .bio-text em { color: #e8ecf2; font-style: italic; }
+
+        /* ── INTERESTS ── */
+        .box-interests { grid-column: 2; grid-row: 2; }
+
+        .interest-list { display: flex; flex-direction: column; gap: 11px; }
+
+        .interest-item { display: flex; gap: 11px; align-items: flex-start; }
+
+        .interest-icon {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--accent-red);
+            background: rgba(211,47,47,0.08);
+            border: 1px solid rgba(211,47,47,0.25);
+            padding: 2px 7px;
+            flex-shrink: 0;
+            margin-top: 1px;
+            letter-spacing: 1px;
+        }
+
+        .ititle {
+            font-size: 13px;
+            color: #e0e6ee;
+            font-weight: 600;
+            margin-bottom: 1px;
+        }
+
+        .interest-item p { font-size: 13px; line-height: 1.6; color: #7a8494; }
+
+        /* ── MEDIA ── */
+        .box-media { grid-column: 2; grid-row: 3; }
+
+        .media-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .media-key {
+            font-family: var(--mono);
+            font-size: 9px;
+            color: var(--accent-red);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .media-val { font-size: 13px; line-height: 1.7; color: #8a96a8; }
+
+        /* ── LOG ── */
+        .box-log {
+            grid-column: 1;
+            grid-row: 4;
+            border-color: rgba(211,47,47,0.4) !important;
+        }
+
+        /* span log across full width */
+        .box-log-full {
+            grid-column: 1 / -1;
+            border-color: rgba(211,47,47,0.4) !important;
+        }
+
+        .log-line {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: #505968;
+            margin-bottom: 7px;
+            padding-left: 10px;
+            border-left: 2px solid var(--border-color);
+            line-height: 1.6;
+        }
+
+        .log-line.active { color: #9aa4b2; border-left-color: var(--accent-red); }
+        .log-line .ts { color: var(--accent-red); margin-right: 7px; }
+
+        .visitor-line {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent-red);
+            margin-top: 12px;
+            padding: 6px 9px;
+            border: 1px solid rgba(211,47,47,0.3);
+            background: rgba(211,47,47,0.05);
+            letter-spacing: 0.5px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #000;
+            border-top: 2px solid var(--accent-red);
+            padding: 8px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .footer-copy { color: #2e3440; font-family: var(--mono); font-size: 10px; }
+        .footer-sig  { color: #2e3440; font-family: var(--serif); font-size: 12px; font-style: italic; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 640px) {
+            #header { height: 100px; }
+            #leftSidebar { display: none; }
+            #mobileNav { display: flex; }
+            #container { border: none; }
+            main { padding: 12px; }
+            .grid { grid-template-columns: 1fr; }
+            .box-photo { grid-column: 1; grid-row: auto; flex-direction: row; align-items: flex-start; gap: 14px; }
+            .photo-wrap { width: 88px; }
+            .photo-wrap img { height: 105px; }
+            .film-strip { display: none; }
+            .box-bio, .box-interests, .box-media, .box-log-full { grid-column: 1; grid-row: auto; }
+            .media-cols { grid-template-columns: 1fr; gap: 10px; }
+            footer { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="header"></div>
+
+<nav id="mobileNav">
+    <a href="index.html">HOME</a>
+    <a href="aboutme.html" class="active-tab">ABOUT ME</a>
+    <a href="animations.html">ART</a>
+    <a href="#">GAMES</a>
+</nav>
+
+<div id="container">
+    <aside id="leftSidebar">
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="aboutme.html" class="active-tab">ABOUT ME</a></li>
+            <li><a href="animations.html">ART</a></li>
+            <li><a href="#">GAMES</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <div class="page-title">
+            <h1>IDENTITY FILE: SAKET</h1>
+            <div class="subtitle">// personal dossier — read at your own risk</div>
+        </div>
+
+        <div class="grid">
+
+            <!-- PHOTO + ID CARD (spans rows) -->
+            <div class="box box-photo">
+                <div class="box-label">profile</div>
+                <div class="photo-wrap">
+                    <div class="film-strip left">
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                    </div>
+                    <img src="photo.jpg" alt="Saket">
+                    <div class="film-strip right">
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                    </div>
+                    <div class="photo-caption">SAKET_S_B · 2026</div>
+                </div>
+
+                <div class="id-card">
+                    <div class="id-row">
+                        <span class="id-key">name</span>
+                        <span class="id-val">Saket S. B.</span>
+                    </div>
+                    <div class="id-row">
+                        <span class="id-key">age</span>
+                        <span class="id-val">18</span>
+                    </div>
+                    <div class="id-row">
+                        <span class="id-key">status</span>
+                        <span class="id-val">ECE  yr.1</span>
+                    </div>
+                    <div class="id-row">
+                        <span class="id-key">base</span>
+                        <span class="id-val">Chandigarh</span>
+                    </div>
+                    <div class="id-row">
+                        <span class="id-key">uptime</span>
+                        <span class="id-val">online<span class="cursor"></span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIO -->
+            <div class="box box-bio">
+                <div class="box-label">about</div>
+                <p class="bio-text">
+                    <span class="drop">S</span>aket. First-year ECE student, living in Chandigarh.
+                    I enjoy discovering new music artists I initially dismiss as too niche,
+                    only to realise later that <em>I was just slow to catch on the trends.</em>
+                    I take long walks, make janky animations, and spend a probably unreasonable
+                    amount of time on the internet.
+                </p>
+            </div>
+
+            <!-- INTERESTS -->
+            <div class="box box-interests">
+                <div class="box-label">interests</div>
+                <div class="interest-list">
+                    <div class="interest-item">
+                        <span class="interest-icon">01</span>
+                        <div>
+                            <div class="ititle">Animation</div>
+                            <p>I draw, and recently got into making animations.</p>
+                        </div>
+                    </div>
+                    <div class="interest-item">
+                        <span class="interest-icon">02</span>
+                        <div>
+                            <div class="ititle">Long walks</div>
+                            <p>Cool mornings or perfectly warm evenings; if I'm free, I'm on a walk.</p>
+                        </div>
+                    </div>
+                    <div class="interest-item">
+                        <span class="interest-icon">03</span>
+                        <div>
+                            <div class="ititle">Video Games</div>
+                            <p>Not competitive. Story-based games, the kind that stick with you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEDIA -->
+            <div class="box box-media">
+                <div class="box-label">media log</div>
+                <div class="media-cols">
+                    <div>
+                        <div class="media-key">// music</div>
+                        <div class="media-val">All of Undertale's soundtrack. Slow, old songs.</div>
+                    </div>
+                    <div>
+                        <div class="media-key">// films</div>
+                        <div class="media-val">Perfect Days · The Lunchbox<br>Dead Poets Society<br>The Shawshank Redemption</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SYSTEM LOG — full width -->
+            <div class="box box-log-full">
+                <div class="box-label">system log</div>
+                <div class="log-line active"><span class="ts">[TASK]</span> Learning new languages.</div>
+                <div class="log-line active"><span class="ts">[MODE]</span> Having fun in my own unique ways.</div>
+                <div class="log-line"><span class="ts">[NOTE]</span> Still debugging. Probably always will be.</div>
+                <div class="visitor-line" id="welcome-msg">&gt;&gt;&gt; SCANNING FOR VISITOR...</div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<footer>
+    <div class="footer-copy">Sector Saket © 2026</div>
+    <div class="footer-sig">still figuring it out.</div>
+</footer>
+
+<script>
+    fetch('https://ipapi.co/json/')
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById('welcome-msg').textContent =
+                `>>> VISITOR DETECTED IN ${d.city.toUpperCase()}, ${d.country_code}`;
+        })
+        .catch(() => {
+            document.getElementById('welcome-msg').textContent = '>>> VISITOR DETECTED';
+        });
+</script>
+
+</body>
+</html>
